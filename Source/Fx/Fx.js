@@ -48,14 +48,10 @@ var Fx = new Class({
 	},
 
 	step: function(){
-		var time = $time();
-		if (time < this.time + this.options.duration){
-			var delta = this.transition((time - this.time) / this.options.duration);
-			this.set(this.compute(this.from, this.to, delta));
-		} else {
-			this.set(this.compute(this.from, this.to, 1));
-			this.complete();
-		}
+		var time = $time(),
+			deltaTime = Math.min(1, (time - this.time) / this.options.duration);
+		this.set(this.compute(this.from, this.to, this.transition(deltaTime)));
+		if (deltaTime === 1) this.complete();
 	},
 
 	set: function(now){
